@@ -1,1 +1,455 @@
-fdd
+<!DOCTYPE html>
+<html lang="id" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>99 Pertanyaan Seputar Ramadhan</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            box-sizing: border-box;
+        }
+        
+        @import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Inter:wght@300;400;500;600&display=swap');
+        
+        .arabic-font { font-family: 'Amiri', serif; }
+        .modern-font { font-family: 'Inter', sans-serif; }
+        
+        .islamic-pattern {
+            background-image: 
+                radial-gradient(circle at 25% 25%, rgba(34, 197, 94, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 75% 75%, rgba(59, 130, 246, 0.1) 0%, transparent 50%);
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #059669, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+    </style>
+</head>
+<body class="h-full bg-gradient-to-br from-emerald-50 via-white to-blue-50 islamic-pattern modern-font">
+    <div class="min-h-full">
+        <!-- Header -->
+        <header class="bg-white/80 backdrop-blur-sm border-b border-emerald-100 sticky top-0 z-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-12 h-12 bg-gradient-to-br from-emerald-500 to-blue-500 rounded-full flex items-center justify-center">
+                            <span class="text-white text-xl">🌙</span>
+                        </div>
+                        <div>
+                            <h1 class="text-2xl font-bold gradient-text">99 Pertanyaan Ramadhan</h1>
+                            <p class="text-sm text-gray-600">Panduan Lengkap Ibadah Ramadhan</p>
+                        </div>
+                    </div>
+                    <div class="hidden sm:flex items-center space-x-2 text-sm text-gray-600">
+                        <span>📚</span>
+                        <span id="totalQuestions">99 Pertanyaan</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <!-- Categories Grid -->
+            <div id="categoriesView" class="fade-in">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-gray-900 mb-4 arabic-font">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيم</h2>
+                    <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                        Temukan jawaban lengkap untuk 99 pertanyaan seputar ibadah Ramadhan yang telah dikategorikan untuk memudahkan pembelajaran Anda.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="categoriesGrid">
+                    <!-- Categories will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Questions View -->
+            <div id="questionsView" class="hidden fade-in">
+                <div class="mb-6">
+                    <button id="backButton" class="flex items-center space-x-2 text-emerald-600 hover:text-emerald-700 transition-colors">
+                        <span>←</span>
+                        <span>Kembali ke Kategori</span>
+                    </button>
+                </div>
+                
+                <div class="bg-white rounded-2xl shadow-lg p-6 mb-8">
+                    <h2 id="categoryTitle" class="text-2xl font-bold text-gray-900 mb-2"></h2>
+                    <p id="categoryDescription" class="text-gray-600"></p>
+                </div>
+
+                <div class="space-y-4" id="questionsList">
+                    <!-- Questions will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Question Detail View -->
+            <div id="questionDetailView" class="hidden fade-in">
+                <div class="mb-6">
+                    <button id="backToQuestionsButton" class="flex items-center space-x-2 text-emerald-600 hover:text-emerald-700 transition-colors">
+                        <span>←</span>
+                        <span>Kembali ke Daftar Pertanyaan</span>
+                    </button>
+                </div>
+                
+                <div class="bg-white rounded-2xl shadow-lg p-8">
+                    <div class="mb-6">
+                        <span id="questionNumber" class="inline-block bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full text-sm font-medium mb-4"></span>
+                        <h2 id="questionTitle" class="text-2xl font-bold text-gray-900 mb-4"></h2>
+                    </div>
+                    
+                    <div id="questionAnswer" class="prose prose-lg max-w-none text-gray-700 leading-relaxed">
+                        <!-- Answer will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="bg-white/80 backdrop-blur-sm border-t border-emerald-100 mt-16">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                <div class="text-center">
+                    <p class="text-gray-600 mb-2">Semoga bermanfaat untuk ibadah Ramadhan yang lebih baik</p>
+                    <p class="text-sm text-gray-500 arabic-font">رَمَضَانَ مُبَارَك</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        const categories = [
+            {
+                id: 1,
+                title: "Niat Puasa",
+                icon: "🤲",
+                description: "Panduan lengkap tentang niat puasa Ramadhan",
+                color: "from-emerald-500 to-teal-500",
+                questions: [
+                    { id: 1, question: "Bagaimana niat puasa Ramadhan yang benar?", answer: "Niat puasa Ramadhan yang benar:<br><br>1. Lafadz niat: 'Nawaitu shauma ghadin 'an ada'i fardhi Ramadhan hadzihi sanati lillahi ta'ala'<br>2. Niat cukup dilakukan dalam hati, tidak perlu diucapkan keras-keras<br>3. Waktu niat adalah dari maghrib hingga sebelum fajar<br>4. Niat harus disertai keyakinan dan kesungguhan<br><br><strong>📖 Dalil:</strong><br><em>Hadits:</em> 'Sesungguhnya amal perbuatan itu tergantung pada niatnya, dan setiap orang akan mendapat sesuai dengan apa yang diniatkannya.' (HR. Bukhari-Muslim)" },
+                    { id: 2, question: "Apakah niat puasa harus diucapkan setiap hari?", answer: "Ketentuan niat puasa harian:<br><br>1. Niat puasa Ramadhan cukup dilakukan sekali di awal bulan untuk seluruh bulan<br>2. Tidak perlu mengulangi niat setiap hari jika puasa berturut-turut<br>3. Perlu niat ulang jika ada hari yang tidak puasa karena uzur (sakit, haid, dll)<br>4. Niat ulang diperlukan saat melanjutkan puasa setelah berbuka karena uzur<br><br><strong>📖 Dalil:</strong><br><em>Kaidah Fiqh:</em> 'Al-umuru bi maqashidiha' (Segala perkara tergantung pada tujuannya)" },
+                    { id: 3, question: "Bagaimana jika lupa berniat puasa?", answer: "Hukum lupa berniat puasa:<br><br>1. Puasa tetap sah jika lupa berniat sebelum fajar<br>2. Syarat: tidak makan atau minum setelah fajar<br>3. Niat bisa dilakukan hingga sebelum waktu Dhuha (sekitar pukul 9 pagi)<br>4. Sebagian ulama membolehkan niat hingga sebelum Dzuhur<br><br><strong>📖 Dalil:</strong><br><em>Hadits:</em> 'Barangsiapa yang tidak berniat puasa sebelum fajar, maka tidak ada puasa baginya.' (HR. Abu Dawud)<br><em>Catatan:</em> Hadits ini dipahami untuk puasa yang disengaja, bukan yang lupa." },
+                    { id: 4, question: "Apakah niat puasa bisa dalam bahasa Indonesia?", answer: "Bahasa dalam niat puasa:<br><br>1. Niat puasa boleh menggunakan bahasa apapun yang dipahami<br>2. Bahasa Indonesia, Arab, atau bahasa daerah semuanya diperbolehkan<br>3. Yang terpenting adalah kesungguhan niat dalam hati<br>4. Niat untuk berpuasa karena Allah semata<br><br><strong>📖 Dalil:</strong><br><em>Al-Quran:</em> 'Dan Kami tidak mengutus seorang rasul pun melainkan dengan bahasa kaumnya.' (QS. Ibrahim: 4)<br><em>Kaidah:</em> Allah memahami semua bahasa hamba-Nya." },
+                    { id: 5, question: "Bagaimana niat puasa qadha?", answer: "Niat puasa qadha (mengganti):<br><br>1. Lafadz: 'Nawaitu shauma ghadin 'an qadha'i ma 'alayya min fardhi Ramadhan lillahi ta'ala'<br>2. Puasa qadha harus diniatkan secara khusus<br>3. Tidak bisa digabung dengan puasa sunnah<br>4. Harus disebutkan bahwa ini adalah qadha Ramadhan<br><br><strong>📖 Dalil:</strong><br><em>Al-Quran:</em> 'Maka barangsiapa di antara kamu sakit atau dalam perjalanan, maka (wajiblah baginya berpuasa) sebanyak hari yang ditinggalkannya itu pada hari-hari yang lain.' (QS. Al-Baqarah: 185)" },
+                    { id: 6, question: "Apakah tidur membatalkan niat puasa?", answer: "Pengaruh tidur terhadap niat puasa:<br><br>1. Tidur tidak membatalkan niat puasa<br>2. Niat yang sudah dilakukan sebelum fajar tetap berlaku<br>3. Puasa tetap sah meskipun tidur sepanjang hari<br>4. Yang membatalkan adalah perbuatan yang dilarang saat puasa<br><br><strong>📖 Dalil:</strong><br><em>Kaidah Fiqh:</em> 'Al-yaqinu la yuzalu bi asy-syakk' (Keyakinan tidak bisa dihilangkan dengan keraguan)<br><em>Penjelasan:</em> Niat yang sudah yakin tidak batal karena tidur." },
+                    { id: 7, question: "Bagaimana niat puasa untuk musafir?", answer: "Ketentuan puasa untuk musafir:<br><br>1. Musafir boleh memilih berpuasa atau berbuka (rukhshah)<br>2. Jika memilih puasa, niatnya sama dengan niat puasa biasa<br>3. Jika berbuka, wajib mengqadha di hari lain setelah Ramadhan<br>4. Jarak safar minimal 81 km menurut jumhur ulama<br><br><strong>📖 Dalil:</strong><br><em>Al-Quran:</em> 'Maka barangsiapa di antara kamu sakit atau dalam perjalanan, maka (wajiblah baginya berpuasa) sebanyak hari yang ditinggalkannya itu pada hari-hari yang lain.' (QS. Al-Baqarah: 185)" },
+                    { id: 8, question: "Apakah niat puasa bisa diubah di tengah hari?", answer: "Mengubah niat puasa di tengah hari:<br><br>1. Niat puasa tidak bisa diubah setelah fajar<br>2. Jika sudah berniat puasa fardhu, tidak boleh diubah menjadi sunnah<br>3. Sebaliknya, puasa sunnah tidak bisa diubah menjadi fardhu<br>4. Niat harus konsisten dari awal hingga akhir<br><br><strong>📖 Dalil:</strong><br><em>Kaidah Fiqh:</em> 'La yanqalibu al-fardhu naflaan wa la an-naflu fardhan' (Fardhu tidak berubah menjadi sunnah, dan sunnah tidak berubah menjadi fardhu)" }
+                ]
+            },
+            {
+                id: 2,
+                title: "Pembatal Puasa",
+                icon: "⚠️",
+                description: "Hal-hal yang membatalkan puasa dan cara menghindarinya",
+                color: "from-red-500 to-pink-500",
+                questions: [
+                    { id: 9, question: "Apa saja yang membatalkan puasa?", answer: "Yang membatalkan puasa: 1) Makan dan minum dengan sengaja, 2) Hubungan suami istri, 3) Muntah dengan sengaja, 4) Haid dan nifas, 5) Murtad, 6) Gila, 7) Minum obat melalui mulut, hidung, atau dubur." },
+                    { id: 10, question: "Apakah menelan ludah membatalkan puasa?", answer: "Menelan ludah sendiri tidak membatalkan puasa karena ini adalah hal yang wajar dan sulit dihindari. Namun, jika ludah bercampur dengan sesuatu dari luar seperti pasta gigi, maka bisa membatalkan puasa." },
+                    { id: 11, question: "Bagaimana hukum muntah saat puasa?", answer: "Muntah yang tidak disengaja tidak membatalkan puasa. Namun, jika muntah dengan sengaja atau setelah muntah kemudian menelan kembali muntahan tersebut, maka puasa batal." },
+                    { id: 12, question: "Apakah mandi membatalkan puasa?", answer: "Mandi tidak membatalkan puasa, bahkan dianjurkan untuk menjaga kebersihan. Namun, harus hati-hati agar air tidak masuk ke dalam tubuh melalui mulut atau hidung." },
+                    { id: 13, question: "Bagaimana dengan obat tetes mata atau telinga?", answer: "Obat tetes mata tidak membatalkan puasa karena mata tidak terhubung langsung dengan rongga perut. Untuk tetes telinga, mayoritas ulama berpendapat tidak membatalkan puasa." },
+                    { id: 14, question: "Apakah donor darah membatalkan puasa?", answer: "Donor darah tidak membatalkan puasa menurut mayoritas ulama kontemporer, karena berbeda dengan bekam yang mengeluarkan darah kotor. Namun, sebaiknya dilakukan setelah berbuka jika memungkinkan." },
+                    { id: 15, question: "Bagaimana dengan pasta gigi saat puasa?", answer: "Menggunakan pasta gigi sebaiknya dihindari saat puasa karena berisiko tertelan. Lebih baik menggunakan siwak atau sikat gigi tanpa pasta, atau menggosok gigi setelah sahur dan sebelum berbuka." },
+                    { id: 16, question: "Apakah berciuman membatalkan puasa?", answer: "Berciuman antara suami istri tidak membatalkan puasa selama tidak mengeluarkan mani atau melakukan hubungan suami istri. Namun, sebaiknya dihindari jika khawatir akan terpancing melakukan hal yang membatalkan puasa." }
+                ]
+            },
+            {
+                id: 3,
+                title: "Hukum Puasa",
+                icon: "⚖️",
+                description: "Dasar hukum dan ketentuan puasa dalam Islam",
+                color: "from-blue-500 to-indigo-500",
+                questions: [
+                    { id: 17, question: "Apa dasar hukum wajib puasa Ramadhan?", answer: "Dasar hukum puasa Ramadhan adalah Al-Quran Surat Al-Baqarah ayat 183: 'Hai orang-orang yang beriman, diwajibkan atas kamu berpuasa sebagaimana diwajibkan atas orang-orang sebelum kamu agar kamu bertakwa.'" },
+                    { id: 18, question: "Siapa saja yang wajib berpuasa?", answer: "Yang wajib berpuasa adalah: 1) Muslim, 2) Baligh (sudah dewasa), 3) Berakal sehat, 4) Mampu berpuasa, 5) Mukim (tidak dalam perjalanan), 6) Suci dari haid dan nifas (untuk wanita)." },
+                    { id: 19, question: "Bagaimana hukum puasa bagi orang sakit?", answer: "Orang sakit yang puasanya dapat memperparah penyakit atau memperlambat kesembuhan boleh berbuka dan wajib mengqadha. Jika sakit kronis yang tidak bisa sembuh, boleh membayar fidyah." },
+                    { id: 20, question: "Apa hukum meninggalkan puasa tanpa uzur?", answer: "Meninggalkan puasa Ramadhan tanpa uzur syar'i adalah dosa besar. Wajib bertaubat, mengqadha puasa yang ditinggalkan, dan membayar kaffarah jika sengaja berbuka dengan makan/minum." },
+                    { id: 21, question: "Bagaimana hukum puasa bagi lansia?", answer: "Lansia yang sudah tidak mampu berpuasa karena usia lanjut boleh tidak berpuasa dan membayar fidyah berupa memberi makan satu orang miskin untuk setiap hari yang tidak dipuasakan." },
+                    { id: 22, question: "Apa itu kaffarah dan kapan wajib dibayar?", answer: "Kaffarah adalah denda yang wajib dibayar karena melanggar puasa dengan sengaja melalui hubungan suami istri. Kaffarahnya adalah memerdekakan budak, atau puasa 60 hari berturut-turut, atau memberi makan 60 orang miskin." },
+                    { id: 23, question: "Bagaimana hukum puasa bagi ibu hamil dan menyusui?", answer: "Ibu hamil dan menyusui yang khawatir membahayakan diri atau anaknya boleh berbuka dan wajib mengqadha. Jika tidak bisa mengqadha karena terus hamil/menyusui, boleh membayar fidyah." },
+                    { id: 24, question: "Apakah puasa bisa diganti dengan sedekah?", answer: "Puasa Ramadhan tidak bisa diganti dengan sedekah bagi yang mampu berpuasa. Sedekah (fidyah) hanya boleh bagi yang benar-benar tidak mampu berpuasa karena sakit kronis atau usia lanjut." }
+                ]
+            },
+            {
+                id: 4,
+                title: "Puasa & Kesehatan",
+                icon: "🏥",
+                description: "Hubungan puasa dengan kesehatan jasmani dan rohani",
+                color: "from-green-500 to-emerald-500",
+                questions: [
+                    { id: 25, question: "Apa manfaat puasa bagi kesehatan?", answer: "Manfaat puasa bagi kesehatan: 1) Detoksifikasi tubuh, 2) Menurunkan berat badan, 3) Meningkatkan sensitivitas insulin, 4) Memperbaiki fungsi otak, 5) Meningkatkan sistem imun, 6) Memperbaiki kesehatan jantung." },
+                    { id: 26, question: "Bagaimana puasa mempengaruhi metabolisme?", answer: "Puasa mengubah metabolisme dari membakar glukosa menjadi membakar lemak (ketosis). Ini membantu pembakaran lemak, meningkatkan produksi hormon pertumbuhan, dan memperbaiki fungsi mitokondria." },
+                    { id: 27, question: "Apakah penderita diabetes boleh berpuasa?", answer: "Penderita diabetes boleh berpuasa dengan pengawasan dokter. Perlu penyesuaian obat, monitoring gula darah, dan pola makan yang tepat saat sahur dan berbuka. Jika berisiko tinggi, sebaiknya tidak berpuasa." },
+                    { id: 28, question: "Bagaimana mengatasi lemas saat puasa?", answer: "Cara mengatasi lemas: 1) Sahur dengan makanan bergizi seimbang, 2) Minum air yang cukup saat sahur dan berbuka, 3) Hindari aktivitas berat di siang hari, 4) Istirahat yang cukup, 5) Konsumsi kurma saat berbuka." },
+                    { id: 29, question: "Apakah puasa aman untuk ibu hamil?", answer: "Keamanan puasa untuk ibu hamil tergantung kondisi kesehatan. Ibu hamil sehat umumnya aman berpuasa, namun perlu konsultasi dokter. Jika ada risiko pada ibu atau janin, sebaiknya tidak berpuasa." },
+                    { id: 30, question: "Bagaimana puasa mempengaruhi tekanan darah?", answer: "Puasa dapat membantu menurunkan tekanan darah melalui penurunan berat badan, pengurangan natrium, dan perbaikan fungsi pembuluh darah. Namun, penderita hipertensi perlu monitoring ketat." },
+                    { id: 31, question: "Apa yang harus dilakukan jika sakit saat puasa?", answer: "Jika sakit saat puasa: 1) Evaluasi tingkat keparahan, 2) Konsultasi dengan ahli agama dan medis, 3) Jika puasa memperparah sakit, boleh berbuka, 4) Segera berobat, 5) Qadha puasa setelah sembuh." },
+                    { id: 32, question: "Bagaimana menjaga kesehatan mental saat puasa?", answer: "Menjaga kesehatan mental: 1) Perbanyak dzikir dan doa, 2) Baca Al-Quran, 3) Silaturahmi dengan keluarga, 4) Hindari stres berlebihan, 5) Istirahat cukup, 6) Lakukan aktivitas positif." }
+                ]
+            },
+            {
+                id: 5,
+                title: "Amalan Ramadhan",
+                icon: "📿",
+                description: "Amalan-amalan sunnah di bulan Ramadhan",
+                color: "from-purple-500 to-violet-500",
+                questions: [
+                    { id: 33, question: "Apa saja amalan sunnah di bulan Ramadhan?", answer: "Amalan sunnah Ramadhan: 1) Shalat Tarawih, 2) Tadarus Al-Quran, 3) I'tikaf, 4) Memperbanyak sedekah, 5) Dzikir dan doa, 6) Sahur, 7) Ta'jil (berbuka puasa orang lain), 8) Mencari Lailatul Qadr." },
+                    { id: 34, question: "Bagaimana cara melakukan tadarus yang baik?", answer: "Tadarus yang baik: 1) Baca dengan tartil (perlahan dan jelas), 2) Renungkan makna ayat, 3) Konsisten setiap hari, 4) Target khatam Al-Quran dalam sebulan, 5) Baca dengan wudhu, 6) Di tempat yang bersih dan tenang." },
+                    { id: 35, question: "Apa keutamaan sedekah di bulan Ramadhan?", answer: "Keutamaan sedekah di Ramadhan: pahalanya berlipat ganda, membersihkan harta, menambah rezeki, mendapat doa dari yang diberi, mendekatkan diri kepada Allah, dan menjadi penyebab masuk surga." },
+                    { id: 36, question: "Bagaimana adab berbuka puasa?", answer: "Adab berbuka puasa: 1) Berbuka dengan kurma dan air, 2) Berdoa sebelum berbuka, 3) Berbuka tepat waktu maghrib, 4) Makan secukupnya, 5) Bersyukur kepada Allah, 6) Mengajak keluarga berbuka bersama." },
+                    { id: 37, question: "Apa itu i'tikaf dan bagaimana pelaksanaannya?", answer: "I'tikaf adalah berdiam diri di masjid untuk beribadah kepada Allah. Dilakukan di 10 hari terakhir Ramadhan, tidak boleh keluar masjid kecuali untuk keperluan darurat, fokus pada ibadah seperti shalat, dzikir, dan baca Al-Quran." },
+                    { id: 38, question: "Bagaimana memperbanyak dzikir di Ramadhan?", answer: "Memperbanyak dzikir: 1) Istighfar di waktu sahur, 2) Tasbih, tahmid, takbir setelah shalat, 3) La hawla wa la quwwata illa billah saat lelah, 4) Shalawat kepada Nabi, 5) Dzikir sebelum tidur." },
+                    { id: 39, question: "Apa keutamaan sahur?", answer: "Keutamaan sahur: 1) Sunnah Rasulullah, 2) Membedakan puasa Muslim dengan Ahli Kitab, 3) Memberikan kekuatan untuk beribadah, 4) Mendapat berkah, 5) Waktu mustajab untuk berdoa dan istighfar." },
+                    { id: 40, question: "Bagaimana mengoptimalkan waktu di Ramadhan?", answer: "Mengoptimalkan waktu Ramadhan: 1) Buat jadwal ibadah harian, 2) Kurangi aktivitas duniawi yang tidak perlu, 3) Perbanyak tilawah Al-Quran, 4) Shalat berjamaah, 5) Silaturahmi, 6) Introspeksi diri." }
+                ]
+            },
+            {
+                id: 6,
+                title: "Ibadah Khusus",
+                icon: "🕌",
+                description: "Ibadah-ibadah khusus di bulan Ramadhan",
+                color: "from-amber-500 to-orange-500",
+                questions: [
+                    { id: 41, question: "Bagaimana tata cara shalat Tarawih?", answer: "Shalat Tarawih dilakukan setelah shalat Isya dengan 8 atau 20 rakaat (4 salam). Setiap 2 rakaat salam, diselingi istirahat ringan. Dibaca dengan surah-surah panjang, dilakukan berjamaah di masjid atau sendiri di rumah." },
+                    { id: 42, question: "Apa itu shalat Tahajud dan keutamaannya?", answer: "Shalat Tahajud adalah shalat malam setelah tidur. Keutamaannya: waktu mustajab untuk berdoa, mendekatkan diri kepada Allah, menghapus dosa, dan meningkatkan derajat di sisi Allah. Minimal 2 rakaat, maksimal tidak terbatas." },
+                    { id: 43, question: "Bagaimana mencari Lailatul Qadr?", answer: "Mencari Lailatul Qadr: 1) Di malam ganjil 10 hari terakhir Ramadhan, 2) Perbanyak ibadah (shalat, dzikir, doa, baca Al-Quran), 3) I'tikaf di masjid, 4) Berdoa: 'Allahumma innaka 'afuwwun tuhibbul 'afwa fa'fu 'anni'." },
+                    { id: 44, question: "Apa keutamaan membaca Al-Quran di Ramadhan?", answer: "Keutamaan baca Al-Quran di Ramadhan: pahala berlipat ganda, setiap huruf bernilai 10 kebaikan, menjadi syafaat di akhirat, mendapat ketenangan hati, dan cahaya di wajah. Dianjurkan khatam minimal sekali dalam sebulan." },
+                    { id: 45, question: "Bagaimana adab berdoa di bulan Ramadhan?", answer: "Adab berdoa di Ramadhan: 1) Berwudhu dan menghadap kiblat, 2) Mulai dengan memuji Allah dan shalawat, 3) Berdoa dengan khusyuk dan yakin, 4) Gunakan doa-doa dari Al-Quran dan Sunnah, 5) Akhiri dengan shalawat dan amin." },
+                    { id: 46, question: "Apa itu shalat Witir dan kapan dilakukan?", answer: "Shalat Witir adalah shalat sunnah muakkad dengan rakaat ganjil (1, 3, 5, dst). Dilakukan setelah Isya hingga sebelum Subuh. Minimal 1 rakaat, yang paling utama 3 rakaat. Dalam rakaat terakhir dibaca doa qunut." },
+                    { id: 47, question: "Bagaimana tata cara doa qunut?", answer: "Doa qunut dibaca dalam shalat Witir setelah rukuk rakaat terakhir atau sebelum rukuk. Teksnya: 'Allahummahdini fiman hadayta...' Dibaca dengan suara pelan, tangan diangkat seperti berdoa, setelah selesai mengusap wajah." },
+                    { id: 48, question: "Apa keutamaan shalat berjamaah di Ramadhan?", answer: "Keutamaan shalat berjamaah di Ramadhan: pahala 27 derajat lebih besar, mendapat doa malaikat, terhindar dari sifat munafik, menambah ukhuwah islamiyah, dan mendapat keberkahan dari imam dan jamaah." }
+                ]
+            },
+            {
+                id: 7,
+                title: "Anak & Puasa",
+                icon: "👶",
+                description: "Panduan puasa untuk anak-anak dan remaja",
+                color: "from-pink-500 to-rose-500",
+                questions: [
+                    { id: 49, question: "Kapan anak wajib mulai berpuasa?", answer: "Anak wajib berpuasa setelah baligh (dewasa). Tanda baligh untuk laki-laki: mimpi basah atau usia 15 tahun. Untuk perempuan: haid atau usia 15 tahun. Sebelum baligh, puasa hanya untuk latihan." },
+                    { id: 50, question: "Bagaimana melatih anak berpuasa?", answer: "Melatih anak puasa: 1) Mulai dengan puasa setengah hari, 2) Beri motivasi dan pujian, 3) Jelaskan hikmah puasa, 4) Buat suasana menyenangkan, 5) Beri contoh yang baik, 6) Jangan memaksa jika sakit." },
+                    { id: 51, question: "Apa yang harus diajarkan pada anak tentang puasa?", answer: "Yang diajarkan pada anak: 1) Niat puasa, 2) Waktu sahur dan berbuka, 3) Hal-hal yang membatalkan puasa, 4) Adab makan dan minum, 5) Doa-doa puasa, 6) Hikmah dan manfaat puasa, 7) Kesabaran dan ketaqwaan." },
+                    { id: 52, question: "Bagaimana jika anak sakit saat puasa?", answer: "Jika anak sakit saat puasa: 1) Prioritaskan kesehatan anak, 2) Boleh berbuka jika perlu, 3) Konsultasi dengan dokter, 4) Tidak perlu qadha karena belum baligh, 5) Tetap ajarkan nilai-nilai puasa." },
+                    { id: 53, question: "Apa menu sahur yang baik untuk anak?", answer: "Menu sahur untuk anak: 1) Makanan bergizi seimbang, 2) Karbohidrat kompleks (nasi, roti gandum), 3) Protein (telur, ikan, daging), 4) Sayuran dan buah, 5) Air putih yang cukup, 6) Hindari makanan pedas dan berminyak." },
+                    { id: 54, question: "Bagaimana mengajarkan anak berdoa saat puasa?", answer: "Mengajarkan doa puasa pada anak: 1) Mulai dengan doa pendek, 2) Ajarkan dengan lagu atau gerakan, 3) Beri contoh langsung, 4) Ulangi setiap hari, 5) Jelaskan arti doa, 6) Buat suasana menyenangkan saat berdoa." },
+                    { id: 55, question: "Apa reward yang baik untuk anak yang berpuasa?", answer: "Reward untuk anak: 1) Pujian dan pelukan, 2) Makanan favorit saat berbuka, 3) Mainan atau buku islami, 4) Jalan-jalan ke tempat menyenangkan, 5) Uang saku tambahan, 6) Sertifikat atau stiker prestasi." },
+                    { id: 56, question: "Bagaimana mengatasi anak yang rewel saat puasa?", answer: "Mengatasi anak rewel: 1) Beri pengertian dengan sabar, 2) Alihkan perhatian dengan aktivitas positif, 3) Ajak bermain atau membaca, 4) Beri motivasi dan semangat, 5) Jangan marah atau membentak, 6) Istirahat yang cukup." }
+                ]
+            },
+            {
+                id: 8,
+                title: "Makanan & Puasa",
+                icon: "🍽️",
+                description: "Panduan makanan dan minuman saat puasa",
+                color: "from-yellow-500 to-amber-500",
+                questions: [
+                    { id: 57, question: "Apa menu sahur yang dianjurkan?", answer: "Menu sahur yang dianjurkan: 1) Nasi dengan lauk protein (ikan, ayam, telur), 2) Sayuran hijau, 3) Buah-buahan, 4) Air putih 2-3 gelas, 5) Kurma, 6) Hindari makanan pedas, asam, dan berminyak berlebihan." },
+                    { id: 58, question: "Bagaimana cara berbuka puasa yang benar?", answer: "Cara berbuka yang benar: 1) Mulai dengan kurma dan air putih, 2) Berdoa sebelum makan, 3) Makan secukupnya, jangan berlebihan, 4) Dahulukan makanan manis untuk energi cepat, 5) Makan perlahan, 6) Shalat Maghrib dulu sebelum makan besar." },
+                    { id: 59, question: "Makanan apa yang sebaiknya dihindari saat sahur?", answer: "Makanan yang dihindari saat sahur: 1) Makanan pedas (menyebabkan haus), 2) Makanan asin berlebihan, 3) Gorengan berminyak, 4) Makanan manis berlebihan, 5) Minuman berkafein tinggi, 6) Makanan sulit dicerna." },
+                    { id: 60, question: "Berapa banyak air yang harus diminum saat sahur?", answer: "Saat sahur sebaiknya minum 2-3 gelas air putih secara bertahap. Jangan minum terlalu banyak sekaligus karena bisa menyebabkan sering buang air kecil. Minum secara perlahan dan diselingi dengan makan." },
+                    { id: 61, question: "Apa manfaat kurma untuk berbuka puasa?", answer: "Manfaat kurma untuk berbuka: 1) Mengandung gula alami untuk energi cepat, 2) Kaya serat untuk pencernaan, 3) Mengandung kalium untuk keseimbangan elektrolit, 4) Sunnah Rasulullah, 5) Mudah dicerna perut kosong." },
+                    { id: 62, question: "Bagaimana mengatur pola makan saat Ramadhan?", answer: "Pola makan Ramadhan: 1) Sahur: 30% kebutuhan kalori, 2) Berbuka: 40% kebutuhan kalori, 3) Makan malam: 30% kebutuhan kalori, 4) Makan dalam porsi kecil tapi sering, 5) Perbanyak buah dan sayur, 6) Minum air 8 gelas antara berbuka dan sahur." },
+                    { id: 63, question: "Apakah boleh minum es saat berbuka?", answer: "Boleh minum es saat berbuka, namun sebaiknya tidak langsung dalam jumlah banyak. Minuman dingin bisa menyebabkan kejang perut. Lebih baik minum air suhu ruang atau hangat terlebih dahulu, baru kemudian minuman dingin." },
+                    { id: 64, question: "Bagaimana mengatasi sembelit saat puasa?", answer: "Mengatasi sembelit saat puasa: 1) Perbanyak makan serat (buah, sayur), 2) Minum air yang cukup, 3) Olahraga ringan, 4) Makan kurma dan buah kering, 5) Hindari makanan berlemak tinggi, 6) Konsumsi probiotik seperti yogurt." }
+                ]
+            },
+            {
+                id: 9,
+                title: "Masalah Praktis",
+                icon: "🔧",
+                description: "Solusi masalah praktis sehari-hari saat puasa",
+                color: "from-gray-500 to-slate-500",
+                questions: [
+                    { id: 65, question: "Bagaimana puasa saat bekerja shift malam?", answer: "Puasa saat shift malam: 1) Tetap ikuti waktu setempat untuk sahur dan berbuka, 2) Atur jadwal tidur yang baik, 3) Bawa bekal sahur jika perlu, 4) Minta pengertian atasan untuk penyesuaian tugas, 5) Jaga stamina dengan istirahat cukup." },
+                    { id: 66, question: "Apakah boleh menggunakan parfum saat puasa?", answer: "Boleh menggunakan parfum saat puasa, namun hindari menghirup secara sengaja dan berlebihan. Parfum tidak membatalkan puasa selama tidak ditelan. Sebaiknya gunakan secukupnya dan hindari parfum dengan alkohol tinggi." },
+                    { id: 67, question: "Bagaimana mengatasi bau mulut saat puasa?", answer: "Mengatasi bau mulut saat puasa: 1) Sikat gigi setelah sahur, 2) Gunakan siwak, 3) Berkumur dengan air (jangan ditelan), 4) Jaga kebersihan mulut, 5) Hindari makanan berbau menyengat saat sahur." },
+                    { id: 68, question: "Apakah boleh berenang saat puasa?", answer: "Boleh berenang saat puasa dengan syarat: 1) Hati-hati agar air tidak masuk ke mulut atau hidung, 2) Tidak berlebihan sampai kelelahan, 3) Hindari berenang di air kotor, 4) Sebaiknya di sore hari menjelang berbuka." },
+                    { id: 69, question: "Bagaimana puasa saat ujian atau kerja berat?", answer: "Puasa saat ujian/kerja berat: 1) Sahur dengan makanan bergizi tinggi, 2) Istirahat yang cukup, 3) Atur strategi belajar/kerja, 4) Perbanyak doa dan dzikir, 5) Jika sangat berat dan membahayakan, boleh berbuka dan qadha." },
+                    { id: 70, question: "Apakah boleh mencicipi masakan saat puasa?", answer: "Mencicipi masakan saat puasa sebaiknya dihindari karena berisiko membatalkan puasa. Jika terpaksa untuk keperluan memasak, boleh mencicipi sedikit dengan ujung lidah dan langsung dikeluarkan, tidak ditelan." },
+                    { id: 71, question: "Bagaimana mengatur waktu ibadah saat sibuk?", answer: "Mengatur waktu ibadah saat sibuk: 1) Buat jadwal prioritas ibadah, 2) Manfaatkan waktu istirahat untuk dzikir, 3) Shalat tepat waktu meski singkat, 4) Baca Al-Quran di perjalanan, 5) Integrasikan ibadah dengan aktivitas harian." },
+                    { id: 72, question: "Apakah boleh donor darah saat puasa?", answer: "Donor darah saat puasa sebaiknya dihindari karena bisa menyebabkan lemas dan pusing. Jika darurat dan sangat diperlukan, boleh dilakukan dengan konsultasi medis, dan sebaiknya setelah berbuka puasa." }
+                ]
+            },
+            {
+                id: 10,
+                title: "Puasa di Luar Negeri",
+                icon: "✈️",
+                description: "Panduan puasa untuk Muslim di luar negeri",
+                color: "from-cyan-500 to-blue-500",
+                questions: [
+                    { id: 73, question: "Bagaimana puasa di negara dengan siang sangat panjang?", answer: "Di negara dengan siang sangat panjang (>18 jam): 1) Ikuti waktu setempat jika masih wajar, 2) Jika ekstrem, boleh ikuti waktu Makkah atau negara terdekat yang normal, 3) Konsultasi dengan ulama setempat, 4) Prioritaskan keselamatan diri." },
+                    { id: 74, question: "Bagaimana menentukan waktu berbuka di negara kutub?", answer: "Di negara kutub yang tidak ada matahari terbenam: 1) Ikuti waktu negara terdekat yang normal, 2) Gunakan perhitungan astronomi, 3) Ikuti fatwa ulama setempat, 4) Bisa mengikuti waktu Makkah sebagai alternatif." },
+                    { id: 75, question: "Apakah harus ikuti waktu setempat saat traveling?", answer: "Saat traveling: 1) Jika perjalanan pendek (<3 hari), boleh ikuti waktu asal, 2) Jika menetap >3 hari, ikuti waktu setempat, 3) Musafir boleh tidak puasa dan qadha nanti, 4) Pertimbangkan kondisi kesehatan dan keamanan." },
+                    { id: 76, question: "Bagaimana puasa saat pindah zona waktu?", answer: "Saat pindah zona waktu: 1) Sesuaikan dengan waktu setempat secara bertahap, 2) Jika beda waktu ekstrem, boleh adaptasi perlahan, 3) Prioritaskan kesehatan, 4) Konsultasi dengan ahli agama setempat." },
+                    { id: 77, question: "Bagaimana mencari makanan halal saat puasa di luar negeri?", answer: "Mencari makanan halal di luar negeri: 1) Riset sebelum berangkat, 2) Cari komunitas Muslim setempat, 3) Gunakan aplikasi pencari makanan halal, 4) Bawa makanan darurat, 5) Pelajari label makanan dalam bahasa setempat." },
+                    { id: 78, question: "Apakah boleh puasa di pesawat?", answer: "Boleh puasa di pesawat dengan ketentuan: 1) Ikuti waktu keberangkatan untuk sahur, 2) Berbuka sesuai waktu tujuan atau perjalanan, 3) Jika bingung, boleh tidak puasa karena status musafir, 4) Qadha setelah sampai tujuan." },
+                    { id: 79, question: "Bagaimana shalat dan puasa di negara non-Muslim?", answer: "Shalat dan puasa di negara non-Muslim: 1) Cari masjid atau musholla terdekat, 2) Gunakan aplikasi arah kiblat dan waktu shalat, 3) Shalat di tempat kerja/sekolah jika memungkinkan, 4) Minta pengertian untuk kebutuhan ibadah." },
+                    { id: 80, question: "Bagaimana menghadapi diskriminasi saat puasa?", answer: "Menghadapi diskriminasi saat puasa: 1) Jelaskan dengan baik tentang puasa, 2) Tunjukkan sikap positif dan profesional, 3) Cari dukungan komunitas Muslim, 4) Laporkan jika ada pelanggaran hak, 5) Tetap sabar dan berdoa." }
+                ]
+            },
+            {
+                id: 11,
+                title: "Tarawih & Ibadah Malam",
+                icon: "🌙",
+                description: "Panduan shalat Tarawih dan ibadah malam Ramadhan",
+                color: "from-indigo-500 to-purple-500",
+                questions: [
+                    { id: 81, question: "Berapa rakaat shalat Tarawih yang benar?", answer: "Shalat Tarawih boleh 8 rakaat (pendapat Aisyah) atau 20 rakaat (pendapat Umar bin Khattab). Keduanya benar menurut ulama. Yang terpenting adalah khusyuk dan istiqamah, bukan jumlah rakaatnya." },
+                    { id: 82, question: "Apakah wanita boleh shalat Tarawih di masjid?", answer: "Wanita boleh shalat Tarawih di masjid dengan syarat: 1) Mendapat izin suami/wali, 2) Berpakaian syar'i, 3) Tidak bercampur dengan laki-laki, 4) Pulang langsung setelah shalat, 5) Tidak memakai parfum berlebihan." },
+                    { id: 83, question: "Bagaimana jika terlambat jamaah Tarawih?", answer: "Jika terlambat jamaah Tarawih: 1) Ikuti imam dari rakaat yang tersisa, 2) Setelah imam salam, lanjutkan rakaat yang tertinggal, 3) Boleh juga shalat sendiri di rumah, 4) Yang penting niat dan khusyuk dalam beribadah." },
+                    { id: 84, question: "Apakah boleh shalat Tarawih sendirian di rumah?", answer: "Boleh shalat Tarawih sendirian di rumah, terutama untuk: 1) Wanita yang sulit ke masjid, 2) Orang sakit, 3) Yang tinggal jauh dari masjid, 4) Kondisi darurat. Namun, berjamaah di masjid lebih utama jika memungkinkan." },
+                    { id: 85, question: "Apa perbedaan Tarawih dan Tahajud?", answer: "Perbedaan Tarawih dan Tahajud: 1) Tarawih: setelah Isya, khusus Ramadhan, berjamaah, 2) Tahajud: setelah tidur malam, sepanjang tahun, biasanya sendiri, 3) Keduanya sunnah muakkad dengan pahala besar." },
+                    { id: 86, question: "Bagaimana adab mengikuti shalat Tarawih?", answer: "Adab shalat Tarawih: 1) Datang tepat waktu, 2) Berpakaian rapi dan wangi, 3) Khusyuk mengikuti bacaan imam, 4) Tidak berbicara selama shalat, 5) Istirahat sejenak antar salam, 6) Berdoa setelah selesai." },
+                    { id: 87, question: "Apakah harus khatam Al-Quran dalam Tarawih?", answer: "Tidak wajib khatam Al-Quran dalam Tarawih, namun ini tradisi baik untuk mendengar seluruh Al-Quran dalam sebulan. Imam sebaiknya menyesuaikan dengan kemampuan jamaah dan tidak terlalu cepat atau lambat." },
+                    { id: 88, question: "Bagaimana jika mengantuk saat Tarawih?", answer: "Jika mengantuk saat Tarawih: 1) Berusaha tetap khusyuk, 2) Ubah posisi berdiri, 3) Perbanyak dzikir dalam hati, 4) Jika sangat mengantuk, boleh pulang dan istirahat, 5) Shalat Tarawih di rumah jika perlu." }
+                ]
+            },
+            {
+                id: 12,
+                title: "Zakat Fitrah",
+                icon: "💰",
+                description: "Panduan lengkap tentang zakat fitrah",
+                color: "from-green-600 to-emerald-600",
+                questions: [
+                    { id: 89, question: "Apa itu zakat fitrah dan siapa yang wajib membayar?", answer: "Zakat fitrah adalah zakat yang wajib dibayar setiap Muslim yang hidup saat Ramadhan berakhir. Wajib bagi: 1) Muslim, 2) Hidup saat maghrib terakhir Ramadhan, 3) Memiliki kelebihan makanan untuk sehari semalam, 4) Merdeka (bukan budak)." },
+                    { id: 90, question: "Berapa kadar zakat fitrah yang harus dibayar?", answer: "Kadar zakat fitrah: 1 sha' (sekitar 2,5-3 kg) makanan pokok setempat per orang. Bisa berupa beras, gandum, kurma, atau makanan pokok lainnya. Boleh juga dibayar dengan uang senilai makanan tersebut." },
+                    { id: 91, question: "Kapan waktu membayar zakat fitrah?", answer: "Waktu membayar zakat fitrah: 1) Paling utama: pagi Idul Fitri sebelum shalat Id, 2) Boleh sejak awal Ramadhan, 3) Paling lambat: sebelum shalat Id selesai, 4) Jika terlambat, tetap wajib dibayar sebagai qadha." },
+                    { id: 92, question: "Siapa yang berhak menerima zakat fitrah?", answer: "Yang berhak menerima zakat fitrah sama dengan penerima zakat mal: 1) Fakir miskin, 2) Amil zakat, 3) Muallaf, 4) Budak yang akan dimerdekakan, 5) Orang berhutang, 6) Fi sabilillah, 7) Ibnu sabil (musafir)." },
+                    { id: 93, question: "Apakah boleh membayar zakat fitrah dengan uang?", answer: "Boleh membayar zakat fitrah dengan uang menurut mayoritas ulama kontemporer, karena lebih praktis dan sesuai kebutuhan penerima. Namun, sebagian ulama lebih mengutamakan pembayaran dengan makanan pokok." },
+                    { id: 94, question: "Bagaimana jika lupa membayar zakat fitrah?", answer: "Jika lupa membayar zakat fitrah: 1) Tetap wajib dibayar meski terlambat, 2) Segera bayar setelah ingat, 3) Bertaubat atas kelalaian, 4) Tidak ada denda, namun kehilangan hikmah penyucian di Idul Fitri." },
+                    { id: 95, question: "Apakah anak kecil wajib zakat fitrah?", answer: "Anak kecil wajib zakat fitrah yang dibayarkan oleh orang tuanya atau walinya. Setiap jiwa yang hidup saat maghrib terakhir Ramadhan wajib zakat fitrah, termasuk bayi yang baru lahir sebelum maghrib." },
+                    { id: 96, question: "Bolehkah memberikan zakat fitrah kepada keluarga?", answer: "Boleh memberikan zakat fitrah kepada keluarga yang berhak (fakir miskin), kecuali: 1) Orang tua dan kakek/nenek, 2) Anak dan cucu, 3) Suami/istri. Boleh untuk saudara, paman, bibi, keponakan yang membutuhkan." }
+                ]
+            },
+            {
+                id: 13,
+                title: "Lebaran & Idul Fitri",
+                icon: "🎉",
+                description: "Panduan perayaan Idul Fitri yang Islami",
+                color: "from-rose-500 to-pink-500",
+                questions: [
+                    { id: 97, question: "Apa saja sunnah di hari Idul Fitri?", answer: "Sunnah Idul Fitri: 1) Mandi dan berpakaian terbaik, 2) Makan sebelum shalat Id, 3) Takbir dari maghrib hingga shalat Id, 4) Berangkat dan pulang lewat jalan berbeda, 5) Shalat Id berjamaah, 6) Silaturahmi, 7) Memberi sedekah." },
+                    { id: 98, question: "Bagaimana tata cara shalat Idul Fitri?", answer: "Shalat Idul Fitri: 2 rakaat tanpa adzan dan iqamah. Rakaat pertama: takbir 7x setelah takbiratul ihram. Rakaat kedua: takbir 5x setelah berdiri. Setelah shalat ada khutbah. Dilakukan setelah matahari naik sekitar pukul 07.00." },
+                    { id: 99, question: "Apa hikmah dan makna perayaan Idul Fitri?", answer: "Hikmah Idul Fitri: 1) Ungkapan syukur setelah menyelesaikan puasa, 2) Kembali ke fitrah yang suci, 3) Mempererat silaturahmi, 4) Berbagi kebahagiaan dengan sesama, 5) Momentum introspeksi dan perbaikan diri, 6) Merayakan kemenangan melawan hawa nafsu." }
+                ]
+            }
+        ];
+
+        let currentView = 'categories';
+        let currentCategory = null;
+        let currentQuestion = null;
+
+        function showCategories() {
+            document.getElementById('categoriesView').classList.remove('hidden');
+            document.getElementById('questionsView').classList.add('hidden');
+            document.getElementById('questionDetailView').classList.add('hidden');
+            currentView = 'categories';
+            renderCategories();
+        }
+
+        function showQuestions(categoryId) {
+            currentCategory = categories.find(cat => cat.id === categoryId);
+            document.getElementById('categoriesView').classList.add('hidden');
+            document.getElementById('questionsView').classList.remove('hidden');
+            document.getElementById('questionDetailView').classList.add('hidden');
+            currentView = 'questions';
+            renderQuestions();
+        }
+
+        function showQuestionDetail(questionId) {
+            const question = currentCategory.questions.find(q => q.id === questionId);
+            currentQuestion = question;
+            document.getElementById('categoriesView').classList.add('hidden');
+            document.getElementById('questionsView').classList.add('hidden');
+            document.getElementById('questionDetailView').classList.remove('hidden');
+            currentView = 'questionDetail';
+            renderQuestionDetail();
+        }
+
+        function renderCategories() {
+            const grid = document.getElementById('categoriesGrid');
+            grid.innerHTML = categories.map(category => `
+                <div class="bg-white rounded-2xl shadow-lg p-6 card-hover cursor-pointer transform transition-all duration-300" onclick="showQuestions(${category.id})">
+                    <div class="flex items-center mb-4">
+                        <div class="w-16 h-16 bg-gradient-to-br ${category.color} rounded-2xl flex items-center justify-center text-2xl shadow-lg">
+                            ${category.icon}
+                        </div>
+                        <div class="ml-4 flex-1">
+                            <h3 class="text-xl font-bold text-gray-900 mb-1">${category.title}</h3>
+                            <span class="inline-block bg-gray-100 text-gray-600 px-3 py-1 rounded-full text-sm">
+                                ${category.questions.length} pertanyaan
+                            </span>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 text-sm leading-relaxed">${category.description}</p>
+                    <div class="mt-4 flex items-center text-emerald-600 font-medium">
+                        <span>Pelajari Sekarang</span>
+                        <span class="ml-2">→</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderQuestions() {
+            document.getElementById('categoryTitle').textContent = currentCategory.title;
+            document.getElementById('categoryDescription').textContent = currentCategory.description;
+            
+            const questionsList = document.getElementById('questionsList');
+            questionsList.innerHTML = currentCategory.questions.map((question, index) => `
+                <div class="bg-white rounded-xl shadow-md p-6 card-hover cursor-pointer border-l-4 border-emerald-500" onclick="showQuestionDetail(${question.id})">
+                    <div class="flex items-start space-x-4">
+                        <div class="w-10 h-10 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center font-bold text-sm flex-shrink-0">
+                            ${index + 1}
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="text-lg font-semibold text-gray-900 mb-2 leading-relaxed">${question.question}</h3>
+                            <div class="flex items-center text-emerald-600 font-medium text-sm">
+                                <span>Baca Jawaban</span>
+                                <span class="ml-2">→</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderQuestionDetail() {
+            const questionIndex = currentCategory.questions.findIndex(q => q.id === currentQuestion.id);
+            document.getElementById('questionNumber').textContent = `Pertanyaan ${questionIndex + 1} dari ${currentCategory.questions.length}`;
+            document.getElementById('questionTitle').textContent = currentQuestion.question;
+            document.getElementById('questionAnswer').innerHTML = `<p>${currentQuestion.answer}</p>`;
+        }
+
+        // Event Listeners
+        document.getElementById('backButton').addEventListener('click', showCategories);
+        document.getElementById('backToQuestionsButton').addEventListener('click', () => showQuestions(currentCategory.id));
+
+        // Initialize
+        showCategories();
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98baee7f871fff83',t:'MTc1OTk4MjAxMy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
+
